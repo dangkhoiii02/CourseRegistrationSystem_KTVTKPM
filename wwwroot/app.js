@@ -363,12 +363,19 @@ async function handleSectionSubmit(event) {
     const lecturerId = document.getElementById('f-lecturerId').value;
     const maxCapacity = parseInt(document.getElementById('f-maxCapacity').value) || 80;
 
+    const schedules = [{
+        dayOfWeek: parseInt(document.getElementById('f-dayOfWeek').value) || 2,
+        startPeriod: parseInt(document.getElementById('f-startPeriod').value) || 1,
+        periodCount: parseInt(document.getElementById('f-periodCount').value) || 3,
+        room: document.getElementById('f-room').value || ""
+    }];
+
     try {
         if (mode === 'create') {
-            await apiPost('/api/sections', { sectionId, subjectId, semesterId, groupNumber, lecturerId, maxCapacity });
+            await apiPost('/api/sections', { sectionId, subjectId, semesterId, groupNumber, lecturerId, maxCapacity, schedules });
             showToast('Thêm lớp tín chỉ thành công!', 'success');
         } else {
-            await apiPut(`/api/sections/${sectionId}`, { lecturerId, maxCapacity });
+            await apiPut(`/api/sections/${sectionId}`, { subjectId, lecturerId, maxCapacity, schedules });
             showToast('Cập nhật thành công!', 'success');
         }
         resetForm();
@@ -387,12 +394,30 @@ function editSection(sectionId) {
     document.getElementById('f-sectionId').value = section.sectionId;
     document.getElementById('f-sectionId').disabled = true;
     document.getElementById('f-subjectId').value = section.subjectId;
-    document.getElementById('f-subjectId').disabled = true;
+    document.getElementById('f-subjectId').disabled = false;
     document.getElementById('f-semesterId').value = section.semesterId;
     document.getElementById('f-semesterId').disabled = true;
     document.getElementById('f-groupNumber').value = section.groupNumber;
     document.getElementById('f-lecturerId').value = section.lecturerId;
     document.getElementById('f-maxCapacity').value = section.maxCapacity;
+
+    document.getElementById('f-dayOfWeek').disabled = false;
+    document.getElementById('f-startPeriod').disabled = false;
+    document.getElementById('f-periodCount').disabled = false;
+    document.getElementById('f-room').disabled = false;
+
+    if (section.schedules && section.schedules.length > 0) {
+        const sch = section.schedules[0];
+        document.getElementById('f-dayOfWeek').value = sch.dayOfWeek;
+        document.getElementById('f-startPeriod').value = sch.startPeriod;
+        document.getElementById('f-periodCount').value = sch.periodCount;
+        document.getElementById('f-room').value = sch.room;
+    } else {
+        document.getElementById('f-dayOfWeek').value = '2';
+        document.getElementById('f-startPeriod').value = '1';
+        document.getElementById('f-periodCount').value = '3';
+        document.getElementById('f-room').value = '';
+    }
 
     // Scroll to form
     document.querySelector('.form-card').scrollIntoView({ behavior: 'smooth' });
@@ -417,6 +442,12 @@ function resetForm() {
     document.getElementById('f-sectionId').disabled = false;
     document.getElementById('f-subjectId').disabled = false;
     document.getElementById('f-semesterId').disabled = false;
+    
+    document.getElementById('f-dayOfWeek').disabled = false;
+    document.getElementById('f-startPeriod').disabled = false;
+    document.getElementById('f-periodCount').disabled = false;
+    document.getElementById('f-room').disabled = false;
+
     document.getElementById('f-groupNumber').value = '1';
     document.getElementById('f-maxCapacity').value = '80';
     // Auto-select first semester

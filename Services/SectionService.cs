@@ -67,7 +67,16 @@ public class SectionService : ISectionService
             LecturerId = dto.LecturerId,
             MaxCapacity = dto.MaxCapacity,
             RegisteredCount = 0,
-            IsActive = true
+            IsActive = true,
+            Schedules = dto.Schedules?.Select(sch => new Schedule
+            {
+                ScheduleId = "SCH_" + Guid.NewGuid().ToString("N").Substring(0, 8),
+                SectionId = dto.SectionId,
+                DayOfWeek = sch.DayOfWeek,
+                StartPeriod = sch.StartPeriod,
+                PeriodCount = sch.PeriodCount,
+                Room = sch.Room
+            }).ToList() ?? new List<Schedule>()
         };
 
         _context.Sections.Add(section);
@@ -78,12 +87,42 @@ public class SectionService : ISectionService
 
     public async Task<SectionResponseDto?> UpdateAsync(string id, UpdateSectionDto dto)
     {
-        var section = await _context.Sections.FindAsync(id);
+        var section = await _context.Sections
+            .Include(s => s.Schedules)
+            .FirstOrDefaultAsync(s => s.SectionId == id);
+            
         if (section == null) return null;
 
-        if (dto.LecturerId != null) section.LecturerId = dto.LecturerId;
+        if (dto.SubjectId != null)
+        {
+            if (!await _context.Subjects.AnyAsync(s => s.SubjectId == dto.SubjectId))
+                throw new ArgumentException($"Mã môn học '{dto.SubjectId}' không tồn tại.");
+            section.SubjectId = dto.SubjectId;
+        }
+
+        if (dto.LecturerId != null)
+        {
+            if (!await _context.Lecturers.AnyAsync(l => l.LecturerId == dto.LecturerId))
+                throw new ArgumentException($"Mã giảng viên '{dto.LecturerId}' không tồn tại.");
+            section.LecturerId = dto.LecturerId;
+        }
+
         if (dto.MaxCapacity.HasValue) section.MaxCapacity = dto.MaxCapacity.Value;
         if (dto.IsActive.HasValue) section.IsActive = dto.IsActive.Value;
+
+        if (dto.Schedules != null)
+        {
+            _context.Schedules.RemoveRange(section.Schedules);
+            section.Schedules = dto.Schedules.Select(sch => new Schedule
+            {
+                ScheduleId = "SCH_" + Guid.NewGuid().ToString("N").Substring(0, 8),
+                SectionId = section.SectionId,
+                DayOfWeek = sch.DayOfWeek,
+                StartPeriod = sch.StartPeriod,
+                PeriodCount = sch.PeriodCount,
+                Room = sch.Room
+            }).ToList();
+        }
 
         await _context.SaveChangesAsync();
         return await GetByIdAsync(id);

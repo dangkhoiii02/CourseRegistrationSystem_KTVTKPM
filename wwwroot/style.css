@@ -6,25 +6,25 @@
 }
 
 :root {
-    --primary: #4f46e5;
-    --primary-light: #818cf8;
-    --primary-dark: #3730a3;
-    --primary-glow: rgba(79, 70, 229, 0.15);
-    --accent: #06b6d4;
+    --primary: #2563eb;
+    --primary-light: #60a5fa;
+    --primary-dark: #1d4ed8;
+    --primary-glow: rgba(37, 99, 235, 0.15);
+    --accent: #0ea5e9;
     --success: #10b981;
     --warning: #f59e0b;
     --danger: #ef4444;
-    --bg: #0f172a;
-    --bg-card: #1e293b;
-    --bg-card-hover: #273549;
-    --bg-input: #0f172a;
-    --border: #334155;
-    --text: #f1f5f9;
-    --text-muted: #94a3b8;
+    --bg: #ffffff;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f1f5f9;
+    --bg-input: #ffffff;
+    --border: #2563eb;
+    --text: #0f172a;
+    --text-muted: #475569;
     --text-dim: #64748b;
     --radius: 12px;
     --radius-sm: 8px;
-    --shadow: 0 4px 24px rgba(0,0,0,0.3);
+    --shadow: 0 4px 16px rgba(0,0,0,0.06);
     --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -38,12 +38,13 @@ body {
 
 /* ===== Header ===== */
 .header {
-    background: linear-gradient(135deg, var(--primary-dark), var(--primary), #7c3aed);
+    background: var(--bg);
     padding: 0;
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 4px 30px rgba(79, 70, 229, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+    border-bottom: 2px solid var(--border);
 }
 
 .header-content {
@@ -62,45 +63,47 @@ body {
 }
 
 .logo-icon {
-    font-size: 2rem;
-    background: rgba(255,255,255,0.15);
-    border-radius: var(--radius);
     width: 50px;
     height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(10px);
+}
+
+.logo-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .logo h1 {
     font-size: 1.25rem;
     font-weight: 700;
-    color: white;
+    color: var(--primary);
     letter-spacing: -0.5px;
 }
 
 .logo p {
-    font-size: 0.75rem;
-    color: rgba(255,255,255,0.7);
-    font-weight: 400;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
 }
 
 .user-info {
     display: flex;
     align-items: center;
     gap: 10px;
-    background: rgba(255,255,255,0.1);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
     padding: 8px 16px;
     border-radius: 100px;
-    backdrop-filter: blur(10px);
 }
 
 .user-avatar {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: var(--accent);
+    background: var(--primary-light);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -113,13 +116,13 @@ body {
     display: block;
     font-weight: 600;
     font-size: 0.85rem;
-    color: white;
+    color: var(--primary);
 }
 
 .user-id {
     display: block;
     font-size: 0.7rem;
-    color: rgba(255,255,255,0.6);
+    color: var(--text-muted);
 }
 
 /* ===== Tabs ===== */
@@ -325,14 +328,14 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--primary), #7c3aed);
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
     color: white;
-    box-shadow: 0 2px 12px rgba(79,70,229,0.4);
+    box-shadow: 0 2px 12px var(--primary-glow);
 }
 
 .btn-primary:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 20px rgba(79,70,229,0.5);
+    box-shadow: 0 4px 20px var(--primary-glow);
 }
 
 .btn-secondary {
@@ -387,9 +390,9 @@ body {
 }
 
 .data-table thead th {
-    background: rgba(79, 70, 229, 0.08);
-    color: var(--text-muted);
-    font-weight: 600;
+    background: rgba(37, 99, 235, 0.08);
+    color: var(--primary);
+    font-weight: 700;
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -413,12 +416,12 @@ body {
 }
 
 .data-table tbody tr:hover {
-    background: rgba(79, 70, 229, 0.05);
+    background: rgba(37, 99, 235, 0.05);
 }
 
 .data-table td {
     padding: 12px 14px;
-    border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+    border-bottom: 1px solid rgba(37, 99, 235, 0.15);
     vertical-align: middle;
 }
 
@@ -462,8 +465,9 @@ body {
 
 .capacity-track {
     flex: 1;
-    height: 6px;
-    background: rgba(51, 65, 85, 0.5);
+    height: 8px;
+    background: var(--bg-card-hover);
+    border: 1px solid var(--border);
     border-radius: 100px;
     overflow: hidden;
     min-width: 60px;

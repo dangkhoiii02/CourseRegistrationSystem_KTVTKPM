@@ -13,7 +13,9 @@
         <header class="header">
             <div class="header-content">
                 <div class="logo">
-                    <div class="logo-icon">📚</div>
+                    <div class="logo-icon">
+                        <img src="Logo_PTIT.jpg" alt="Logo PTIT">
+                    </div>
                     <div>
                         <h1>Hệ thống Đăng ký Tín chỉ</h1>
                         <p>Học viện Công nghệ Bưu chính Viễn thông - CS HCM</p>
@@ -135,6 +137,31 @@
                                 <label for="f-maxCapacity">Sĩ số tối đa *</label>
                                 <input type="number" id="f-maxCapacity" required value="80" min="1" max="500">
                             </div>
+                            <div class="form-group" style="grid-column: 1 / -1; margin-top: 5px;">
+                                <label>Lịch học *</label>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; margin-top: 5px;">
+                                    <div>
+                                        <select id="f-dayOfWeek" required style="width: 100%;">
+                                            <option value="2">Thứ 2</option>
+                                            <option value="3">Thứ 3</option>
+                                            <option value="4">Thứ 4</option>
+                                            <option value="5">Thứ 5</option>
+                                            <option value="6">Thứ 6</option>
+                                            <option value="7">Thứ 7</option>
+                                            <option value="8">Chủ nhật</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <input type="number" id="f-startPeriod" required value="1" min="1" max="15" placeholder="Tiết BĐ" style="width: 100%;">
+                                    </div>
+                                    <div>
+                                        <input type="number" id="f-periodCount" required value="3" min="1" max="10" placeholder="Số tiết" style="width: 100%;">
+                                    </div>
+                                    <div>
+                                        <input type="text" id="f-room" required placeholder="Phòng học (VD: A2-301)" style="width: 100%;">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-actions">
                             <button type="submit" class="btn btn-primary">💾 Lưu</button>
@@ -160,6 +187,6 @@
         <div id="toast" class="toast"></div>
     </div>
 
-    <script src="app.js?v=4"></script>
+    <script src="app.js?v=6"></script>
 </body>
 </html>
